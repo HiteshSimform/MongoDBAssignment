@@ -1,0 +1,2 @@
+if we are doing project and multiple person working but database is same , so how we connect all
+how to connect one database on multiple PC

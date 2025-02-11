@@ -5,10 +5,15 @@ from datetime import datetime
 import faker
 from pymongo import IndexModel, ASCENDING
 from pymongo.errors import PyMongoError
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 class EmployeeDataGenerator:
     def __init__(self):
-        self.client = MongoClient('mongodb+srv://hiteshjethava:<db_password>@cluster0.jspdn.mongodb.net/')
+        mongo_uri = os.getenv("MONGO_URI")
+        self.client = MongoClient(mongo_uri)
         self.db = self.client['employeeDB']
         self.collection = self.db['employees']
 
@@ -68,8 +73,8 @@ class EmployeeDataGenerator:
 
         return employee_doc
 
-    def insert_employees_batch(self, count=300, null_status_count=100, batch_size=50):
-        self.collection.delete_many({})  
+    def insert_employees_batch(self, count=100, null_status_count=10, batch_size=50):
+        # self.collection.delete_many({})  
 
         regular_employees = [
             self.generate_employee(index) 
@@ -95,7 +100,7 @@ class EmployeeDataGenerator:
 
 def main():
     generator = EmployeeDataGenerator()
-    generator.insert_employees_batch(count=275, null_status_count=100)
+    generator.insert_employees_batch(count=100, null_status_count=10)
 
 if __name__ == "__main__":
     main()
